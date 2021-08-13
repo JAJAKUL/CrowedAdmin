@@ -1,0 +1,249 @@
+<br />
+<div class="container-fluid sss">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="wrap-pro-img">
+                <div _ngcontent-jfx-c9="" class="wrap-img">
+                    <img
+                        *ngIf="reqData?.profile_image"
+                        [src]="profile_url"
+                    />
+                    <img
+                        *ngIf="!reqData?.profile_image"
+
+                        class="ng-tns-c9-1"
+                        src="./assets/img/logo.jpg"
+                    />
+                </div>
+                <h4 class="text-center">{{reqData?.name}}</h4>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="profile-img">
+                <h3><b>Email:</b></h3>
+                <h4>{{reqData?.email}}</h4>
+                <h3><b>Phone Number</b></h3>
+                <h4>{{reqData?.phone}}</h4>
+                <!-- <h3><b>Date of Birth</b></h3> -->
+                <!-- <h4>{{reqData?.dob| date:'dd-MM-yyyy'}}</h4> -->
+                <button class="theme-btn" (click)="changePro()">Edit Profile</button>
+                <button class="theme-btn" (click)="changeImg()">Edit Image</button>
+                <button class="theme-btn" (click)="changePass()">
+                Change Password
+                </button>
+            </div>
+        </div>
+    <div class="col-lg-3" *ngIf="changeName">
+        <div class="profile-img">
+            <form [formGroup]="Form">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-sm-12">Name:</label>
+                        <div class="col-sm-12">
+                            <input
+                              type="text"
+                              [formControl]="Form.controls['name']"
+                              [(ngModel)]="reqData.name"
+                              class="form-control"
+                              placeholder="Enter Name"
+                            />
+
+                            <!-- <p style="color: #E80358"  *ngIf="!Form.controls['name'].valid  && ( Form.controls['name'].touched)" >Enter valid name</p>  -->
+                            <div [hidden]="Form.controls['name'].valid || Form.controls['name'].untouched">
+                                <div style="color: #E80358"
+                                    [hidden]="!Form.controls['name'].hasError('required')">
+                                    Name is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-12">Email</label>
+                        <div class="col-sm-12">
+                            <input
+                                type="text"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="reqData.email"
+                                class="form-control"
+                                placeholder="Enter Email"
+                                readonly
+                            />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-12">Phone:</label>
+                        <div class="col-sm-12">
+                            <input
+                                type="text"
+                                [formControl]="Form.controls['phone']"
+                                [(ngModel)]="reqData.phone"
+                                class="form-control"
+                                placeholder="Enter Phone"
+                            />
+                            <!-- <p style="color: #E80358"  *ngIf="!Form.controls['phone'].valid  && ( Form.controls['phone'].touched)" >Enter valid phone</p>  -->
+                            <div [hidden]="Form.controls['phone'].valid || Form.controls['phone'].untouched">
+                                <div style="color: #E80358"
+                                    [hidden]="!Form.controls['phone'].hasError('minlength')">
+                                    Phone number should be minimum 10 characters.
+                                </div>
+                                <div style="color: #E80358"
+                                    [hidden]="!Form.controls['phone'].hasError('required')">
+                                    Phone number is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <label class="control-label col-sm-12">Date Of birth:</label>
+                        <div class="col-sm-12">
+
+
+                            <mat-form-field color="accent" appearance="fill">
+                              <mat-label>DOB</mat-label>
+                              <input matInput [matDatepicker]="picker1" [ngModelOptions]="{standalone: true}" [(ngModel)]="reqData.dob">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+                    </div> -->
+                </div>
+                <button
+                    class="theme-btn btn-block"
+                    [disabled]="!Form.valid"
+                    (click)="submitProfile()"
+                >
+                Submit
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-3" *ngIf="changePassword">
+        <div class="profile-img">
+            <form [formGroup]="Form1">
+              <div class="form-group">
+                <div class="row">
+                  <label class="control-label col-sm-12">Old Password:</label>
+                  <div class="col-sm-12 pass-icon">
+                    <input
+                      type="password"
+                      [formControl]="Form1.controls['oldPassword']"
+                      [(ngModel)]="getData.password"
+                      class="form-control"
+                      placeholder="Enter Old Password"
+
+                    />
+                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    <div [hidden]="Form1.controls['oldPassword'].valid || Form1.controls['oldPassword'].untouched">
+
+                        <div style="color: #E80358"
+                            [hidden]="!Form1.controls['oldPassword'].hasError('required')">
+                            Old password is required.
+                        </div>
+
+                    </div>
+                 </div>
+                </div>
+                <div class="row">
+                  <label class="control-label col-sm-12">New Password</label>
+
+                  <div class="col-sm-12 pass-icon">
+
+                    <input
+                      type="password"
+                      [formControl]="Form1.controls['newPassword']"
+                      [(ngModel)]="getData.newPassword"
+                      class="form-control"
+                      placeholder="Enter New Password"
+                    />
+
+                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+
+                    <!-- <p style="color: #E80358"  *ngIf="!Form1.controls['newPassword'].valid  && ( Form1.controls['newPassword'].touched)" >Please provide valid Password </p> -->
+                    <div [hidden]="Form1.controls['newPassword'].valid || Form1.controls['newPassword'].untouched">
+                        <div style="color: #E80358"
+                            [hidden]="!Form1.controls['newPassword'].hasError('minlength')">
+                            Password should be minimum 6 characters.
+                        </div>
+                        <div style="color: #E80358"
+                            [hidden]="!Form1.controls['newPassword'].hasError('required')">
+                            Password is required.
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="control-label col-sm-12">Confirm Password:</label>
+                  <div class="col-sm-12 pass-icon">
+                    <input
+                      type="password"
+                      [formControl]="Form1.controls['confirmPassword']"
+                      [(ngModel)]="getData.confirmPassword"
+                      class="form-control"
+                      placeholder="Enter Confirm Password"
+                    />
+                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+
+                    <!-- <p style="color: #E80358"  *ngIf="!Form1.controls['confirmPassword'].valid  && ( Form1.controls['confirmPassword'].touched)" >Please provide valid Password </p> -->
+                    <div [hidden]="Form1.controls['confirmPassword'].valid || Form1.controls['confirmPassword'].untouched">
+
+                        <div style="color: #E80358"
+                            [hidden]="!Form1.controls['confirmPassword'].hasError('required')">
+                            Passwords are not same
+                        </div>
+
+                    </div>
+                    <p style="color: #E80358"  *ngIf="!rpf.confirmPassword.errors && Form1.hasError('notSame')">Password did not match</p>
+
+                  </div>
+                </div>
+              </div>
+              <button
+                class="theme-btn btn-block"
+                [disabled]="!Form1.valid"
+                (click)="submitPassword()"
+              >
+                Submit
+              </button>
+            </form>
+      </div>
+    </div>
+    <div class="col-lg-3" *ngIf="changeImage">
+        <div class="profile-img">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col col-12 text-center">
+                        <img *ngIf="profileImageSrc" src="{{profileImageSrc}}" width="120px" height="120px"  class="user-avatar  rounded-circle" style="object-fit: cover;"/>
+                        <img *ngIf="!profileImageSrc"
+
+                            [src]="profile_url"
+                            width="120px"
+                            height="120px"
+                            class="user-avatar rounded-circle"
+                            style="object-fit: cover"
+                        />
+                        <!-- {{profile_url}} -->
+                        <br />
+                        <div class="image-upload">
+                            <label for="file-input">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </label>
+
+                            <input
+                                id="file-input"
+                                type="file"
+                                (change)="readURL($event)"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                    <button class="theme-btn btn-block" (click)="submitImage()">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

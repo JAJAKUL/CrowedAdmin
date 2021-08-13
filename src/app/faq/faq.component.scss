@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+.ntu {
+  text-align: center;
+  margin-right: 15px;
+}
+
+.first-header .filter {
+
+  width: 291px !important;
+}
+
+
+.modal-backdrop {
+  /* bug fix - no overlay */
+  display: none;
+  position: unset;
+}

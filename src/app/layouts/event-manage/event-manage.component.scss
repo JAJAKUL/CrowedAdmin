@@ -1,0 +1,44 @@
+table {
+  width: 100%;
+}
+.ntu {
+  text-align: center;
+  margin-right: 15px;
+}
+
+.first-header .filter {
+
+  width: 291px !important;
+}
+
+
+.modal-backdrop {
+  /* bug fix - no overlay */
+  display: none;
+  position: unset;
+}
+
+.example-form-field {
+  margin: 0 8px 16px 0;
+}
+.datepicker{z-index:9999 !important}
+// .modal {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   z-index: 1050;
+//   display: none;
+//   -webkit-overflow-scrolling: touch;
+//   outline: 0;
+// }
+.cdk-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
+  z-index: 9999 !important;
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+}

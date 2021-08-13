@@ -1,0 +1,90 @@
+// Here you can add other styles
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 8px !important;
+}
+.mat-checkbox-layout {
+    margin-bottom: 0px !important;
+}
+th.mat-header-cell:first-of-type{
+    max-width: 30px !important;
+    width: 10px;
+}
+.mat-form-field {
+    width: 100%;
+    margin-bottom: 0px !important;
+}
+img.img-avatar.ng-star-inserted {
+    display: none;
+}
+.mat-column-webUrl {
+    overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+}
+
+mat-form-field .for-ser{
+  background-repeat: no-repeat;
+  background-size: 14px;
+  background-position: right center;
+  padding-right: 30px;
+  background-image: url(../assets/img/search-icon.png);
+}
+
+.backgroun-img{
+  background-image: url(../assets/img/underconstructionpage.png);
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    overflow: hidden;
+  // width: 100%;
+  // height: 100%;
+  // max-height: 100%;
+  // margin: 0;
+  // padding: 0;
+  // background-image: url(../assets/img/underconstructionpage.jpg);
+  // background-size:100% 100%;
+  // background-repeat: no-repeat;
+}
+
+.sidebar .nav-link:hover{
+  background: #ff2600;
+}
+
+app-footer span a {
+  color: #ff2600;
+}
+span.badge.badge-info {
+  background: #fff;
+}
+ul.nav.navbar-nav.ml-auto ~ button.navbar-toggler {
+  display: none !important;
+}
+.app-header .nav-item .nav-link {
+  padding-right: 30px;
+}
+.sidebar .nav-link.active .nav-icon {
+  color: #fff;
+}
+.sidebar-minimized .sidebar .nav-item:hover > .nav-link {
+  background: #ff2600;
+}
+.card.common-card{
+  border-radius: 0px;
+  border: 0px;
+  min-height: 130px;
+  font-size: 20px;
+  button{
+    i{
+      font-size: 50px;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+
+<div class="container">
+  <section id="content">
+      <form [formGroup]="complexForm">
+          <h1>
+              <img src="../../assets/img/logo.png" alt="">
+              <small>Login Form</small>
+            </h1>
+          <div>
+              <input type="text" placeholder="Username" required="" id="username"  [(ngModel)]="reqData.email" [formControl]="complexForm.controls['email']" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="Email" autocomplete="email" required />
+          </div>
+          <div [hidden]="complexForm.controls['email'].valid || complexForm.controls['email'].untouched">
+            <div style="color: #E80358"
+                [hidden]="!complexForm.controls['email'].hasError('pattern')">
+                Please Enter a valid Email.
+            </div>
+            <div style="color: #E80358"
+                [hidden]="!complexForm.controls['email'].hasError('required')">
+                Email is required.
+            </div>
+        </div>
+
+
+          <div>
+              <input type="password" placeholder="Password" required="" id="password" [(ngModel)]="reqData.password" [formControl]="complexForm.controls['password']" placeholder="Password" autocomplete="new-password" required />
+          </div>
+          <div [hidden]="complexForm.controls['password'].valid || complexForm.controls['password'].untouched">
+
+            <div style="color: #E80358"
+                [hidden]="!complexForm.controls['password'].hasError('required')">
+                Password is required.
+            </div>
+        </div>
+          <div>
+              <input type="submit" (click)="login()" value="Log in"  />
+              <a href="javascript:void(0)" [routerLink]="['/forgot-password']" routerLinkActive="router-link-active" >Forgot Password?</a>
+              <!-- <a href="javascript:void(0)">Register</a> -->
+          </div>
+      </form><!-- form -->
+
+  </section><!-- content -->
+</div><!-- container -->

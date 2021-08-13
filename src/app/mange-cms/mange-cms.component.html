@@ -1,0 +1,281 @@
+<div class="row">
+  <div class="col-lg-4">
+    <h2>CMS Management</h2>
+  </div>
+  <!-- <div class="col-lg-8 text-right">
+        <button class="btn btn-primary ntu" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add</button>
+    </div> -->
+</div>
+<section class="first-header d-flex align-items-center justify-content-between">
+  <div class="filter">
+    <!-- <p>Filter</p> -->
+    <mat-form-field>
+      <input class="for-ser"
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Search By Name"
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- <button class="btn btn-primary ntu" ><i class="fa fa-plus"></i>&nbsp;&nbsp; Add </button> -->
+    <!-- <a class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#menuModal">
+
+      Add Menu
+    </a> -->
+    <!-- <button class="btn btn-primary" (click)="multiActive()">Mark As Active</button>
+        <button class="btn btn-primary" (click)="multiInactive()">Mark As Inactive</button> -->
+
+  </div>
+</section>
+<div class="table-responsive">
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+  matSort
+  (matSortChange)="sortData($event)"
+  matSortActive="name"
+  matSortDirection="asc"
+>
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+  <!-- Position Column -->
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <!-- image Column -->
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
+    <td mat-cell *matCellDef="let element">
+      <img src="{{imageUrl}}{{element.image}}" style="height: 80px; width:100px;    margin-right: 10px;">
+    </td>
+  </ng-container>
+  <!-- page_name Column -->
+  <ng-container matColumnDef="page_name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.page_name }}</td>
+  </ng-container>
+  <!-- page_heading Column -->
+  <ng-container matColumnDef="page_heading">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Page Heading</th>
+    <td mat-cell *matCellDef="let element">{{ element.page_heading }}</td>
+  </ng-container>
+  <!-- page_description Column -->
+  <ng-container matColumnDef="page_description">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Page Description</th>
+    <td mat-cell *matCellDef="let element">{{ element.page_description }}</td>
+  </ng-container>
+
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.isActive  ? "Active" : "Inactive" }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="mat-header-cell">Action</th>
+    <td class="mat-cell act_td" mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="changeStatus(element)" mat-menu-item>
+          <mat-icon><span class="material-icons">visibility</span></mat-icon>
+          <span>{{element.isActive ? 'Inactive' : 'Active'}}</span>
+        </button>
+        <!-- <button  mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                </button> -->
+        <a
+          href="javascript:void(0)" (click)="openEditModal(element)"
+          mat-menu-item
+        >
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </a>
+        <button (click)="deleteData(element._id)" mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+</div>
+<mat-paginator
+  #paginator
+  [length]="length"
+  [pageSize]="10"
+  [pageSizeOptions]="[10, 20, 30, 50]"
+  (page)="onPageFired($event)"
+>
+</mat-paginator>
+
+
+<!-- The Modal -->
+<div class="modal" id="menuModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add CMS</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form [formGroup]="addMenuForm">
+          <!-- <h2>Add Your Menu</h2> -->
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Category Name"
+             [(ngModel)]="getData.page_name" [formControl]="addMenuForm.controls['page_name']">
+            <p
+            style="color: #e80358"
+            *ngIf="
+              !addMenuForm.controls['page_name'].valid &&
+              addMenuForm.controls['page_name'].touched
+            "
+          >
+            This field is required.
+          </p>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="getData.page_heading" [formControl]="addMenuForm.controls['page_heading']" placeholder="Page Heading">
+            <p
+            style="color: #e80358"
+            *ngIf="
+              !addMenuForm.controls['page_heading'].valid &&
+              addMenuForm.controls['page_heading'].touched
+            "
+          >
+            This field is required.
+          </p>
+          </div>
+          <div class="form-group">
+            <input type="file" class="form-control"  (change)="readURL($event)"  placeholder="Menu Image">
+
+          </div>
+          <div class="form-group">
+            <textarea class="form-control"  [(ngModel)]="getData.page_description" [formControl]="addMenuForm.controls['page_description']" placeholder="Some Info" rows="4" ></textarea>
+            <p
+            style="color: #e80358"
+            *ngIf="
+              !addMenuForm.controls['page_description'].valid &&
+              addMenuForm.controls['page_description'].touched
+            "
+          >
+            This field is required.
+          </p>
+          </div>
+
+
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-info" data-dismiss="modal" [disabled]="!addMenuForm.valid"
+        (click)="addCMS()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="menuEditModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit CMS</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form [formGroup]="editMenuForm">
+          <!-- <h2>Add Your Menu</h2> -->
+          <div class="form-group">
+            <input type="text" class="form-control" readonly placeholder="Category Name"
+             [(ngModel)]="editData.page_name" [formControl]="editMenuForm.controls['page_name']">
+            <p
+            style="color: #e80358"
+            *ngIf="
+              !editMenuForm.controls['page_name'].valid &&
+              editMenuForm.controls['page_name'].touched
+            "
+          >
+            This field is required.
+          </p>
+          </div>
+
+
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="editData.page_heading" [formControl]="editMenuForm.controls['page_heading']" placeholder="Page Heading">
+            <p
+            style="color: #e80358"
+            *ngIf="
+              !editMenuForm.controls['page_heading'].valid &&
+              editMenuForm.controls['page_heading'].touched
+            "
+          >
+            This field is required.
+          </p>
+          </div>
+          <div class="form-group">
+            <input type="file" class="form-control" (change)="readURL($event)"   placeholder="Menu Image">
+            <p *ngIf="!image">{{editData?.image ? editData?.image : ''}}</p>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control"  [(ngModel)]="editData.page_description" [formControl]="editMenuForm.controls['page_description']" placeholder="Some Info" rows="4" ></textarea>
+            <p
+            style="color: #e80358"
+            *ngIf="
+              !editMenuForm.controls['page_description'].valid &&
+              editMenuForm.controls['page_description'].touched
+            "
+          >
+            This field is required.
+          </p>
+          </div>
+
+
+        </form>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-info" data-dismiss="modal" [disabled]="!editMenuForm.valid"
+        (click)="editCMS()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
